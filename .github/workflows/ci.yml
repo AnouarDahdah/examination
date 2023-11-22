@@ -1,0 +1,43 @@
+name: OpenFOAM Continuous Integration
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up OpenFOAM environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openfoam7
+
+          # Set up OpenFOAM environment variables
+          echo ". /opt/openfoam7/etc/bashrc" >> $HOME/.bashrc
+          source $HOME/.bashrc
+
+      - name: Build modified icoFoam solver
+        run: |
+          # Navigate to the source directory of your modified icoFoam solver
+          cd $GITHUB_WORKSPACE/path/to/your/icoFoam-fork
+
+          # Build the modified solver
+          wmake
+
+      - name: Run tests
+        run: |
+          # Navigate to the case directory
+          cd $GITHUB_WORKSPACE/path/to/your/OpenFOAM/case
+
+          # Source the OpenFOAM environment for the case
+          . $FOAM_RUN
+
+          # Run your test case with the modified solver
+          icoFoam
+
