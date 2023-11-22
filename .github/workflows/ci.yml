@@ -13,22 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Add OpenFOAM repository
+      - name: Use OpenFOAM Docker image
         run: |
-          sudo sh -c "echo 'deb http://dl.openfoam.org/ubuntu jammy main' > /etc/apt/sources.list.d/openfoam.list"
-          sudo apt-key adv --fetch-keys http://dl.openfoam.org/gpg.key
-          sudo apt-get update
-
-      - name: Install OpenFOAM
-        run: |
-          sudo apt-get install -y openfoam9
-          echo ". /opt/openfoam9/etc/bashrc" >> $HOME/.bashrc
-          source $HOME/.bashrc
-
-      - name: Build and run tests
-        run: |
-          # Source the OpenFOAM environment for the case
-          . $FOAM_RUN
-
-          # Run your test case with the modified solver
-          icoFoam
+          docker pull quay.io/opencadd/openfoam:7
+          docker run -v $GITHUB_WORKSPACE:/workspace -w /workspace quay.io/opencadd/openfoam:7 /bin/bash -c "./run_openfoam_tests.sh"
