@@ -16,7 +16,8 @@ jobs:
       - name: Set up OpenFOAM environment
         run: |
           sudo apt-get update
-          sudo apt-get install -y openfoam7
+          sudo apt -y install openfoam9
+
 
           # Set up OpenFOAM environment variables
           echo ". /opt/openfoam7/etc/bashrc" >> $HOME/.bashrc
