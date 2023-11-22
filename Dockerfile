@@ -11,7 +11,7 @@ COPY . /home/openfoam
 
     git clone https://github.com/AnouarDahdah/icoFoam.git && \
     cd icoFoam && \
-    git checkout your_branch_or_commit && \
+    git checkout master && \
     wmake
 
 # Run your OpenFOAM solver or test script
