@@ -9,5 +9,10 @@ COPY . /home/openfoam
 
 # OpenFOAM environment setup is handled by the base image
 
-# Command to run when the container starts
-CMD ["bash"]
+    git clone https://github.com/AnouarDahdah/icoFoam.git && \
+    cd icoFoam && \
+    git checkout your_branch_or_commit && \
+    wmake
+
+# Run your OpenFOAM solver or test script
+CMD ["icoFoam"]
