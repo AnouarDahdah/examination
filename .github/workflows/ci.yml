@@ -6,14 +6,13 @@ on:
       - main
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Use OpenFOAM Docker image
+  v2212:
+      name: "v2212"
+      runs-on: ubuntu-22.04
+      steps:
+      - uses: actions/checkout@v2
+      
+      - name: Install OpenFOAM
         run: |
-          docker pull quay.io/opencadd/openfoam:7
-          docker run -v $GITHUB_WORKSPACE:/workspace -w /workspace quay.io/opencadd/openfoam:7 /bin/bash -c "./run_openfoam_tests.sh"
+          wget -q -O - https://dl.openfoam.com/add-debian-repo.sh | sudo bash
+          sudo apt-get install -qq openfoam2212-dev  
